@@ -1,1 +1,3 @@
 These are my R scripts to generate the charts for my regular Team Health report
+
+Previously I generated all of this in Excel, in an effort to automate it even further I am migrating it to R
