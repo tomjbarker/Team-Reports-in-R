@@ -26,7 +26,7 @@ dev.off()
 
 #draw comparison chart xtv vs pds avg number of lines changed per commit
 png("TeamHealth_avgcommitsizecomparison.png")
-	plot(xtv_commits$avglinesofcode, xtv_commits$developer, type="b",	pch=15, lty=1, col="red", ylim=c(0, 60),	main="Avg Lines of Code Changed\n Per Commit for XTV and PDS",	xlab="", ylab="Avg Commit Size")
+	plot(xtv_commits$avglinesofcode, xtv_commits$developer, type="b",	pch=15, lty=1, col="red", ylim=c(0, 60),	main="Avg Lines of Code Changed\n Per Commit for XTV and PDS",	xlab="", ylab="Avg Commit Size" )
 	text(xtv_commits$avglinesofcode, row.names(xtv_commits), cex=0.6, pos=4, col="red")
 	lines(pds_commits$avglinesofcode, type="b", pch=17, lty=2, col="blue")
 	text(pds_commits$avglinesofcode, row.names(pds_commits), cex=0.6, pos=4, col="blue")
