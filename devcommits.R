@@ -14,7 +14,7 @@ comparisonchartacdc <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommits
 
 
 
-drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart){
+drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, sprintname){
 	xtv <- xtv[order(row.names(xtv)),]
 	pds <- pds[order(row.names(pds)),]
 	
@@ -22,9 +22,9 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart){
 	png(pdschart, width = 680, height = 680, units = "px")
 		opar <- par(no.readonly=TRUE)
 		par(mfrow=c(2,1))
-		plot(pds$commits, main="PDS Total Commits",  xlab="", ylab="Number of Commits")
+		plot(pds$commits, main=paste("PDS Total Commits", sprintname),  xlab="", ylab="Number of Commits")
 		text(pds$commits, row.names(pds), cex=1, pos=4)
-		plot(pds$avglinesofcode, main="PDS Avg Commit Size (in Lines of Code)", xlab="", ylab="Lines of Code")	
+		plot(pds$avglinesofcode, main=paste("PDS Avg Commit Size (in Lines of Code)", sprintname), xlab="", ylab="Lines of Code")	
 		text(pds$avglinesofcode, row.names(pds), cex=1, pos=4)
 		par(opar)
 	dev.off()
@@ -33,9 +33,9 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart){
 	png(xtvchart, width = 680, height = 680, units = "px")
 		opar <- par(no.readonly=TRUE)
 		par(mfrow=c(2,1))
-		plot(xtv$commits, main="XTV Total Commits",  xlab="", ylab="Number of Commits")
+		plot(xtv$commits, main=paste("XTV Total Commits", sprintname),  xlab="", ylab="Number of Commits")
 		text(xtv$commits, row.names(xtv), cex=1, pos=4)
-		plot(xtv$avglinesofcode, main="XTV Avg Commit Size (in Lines of Code)", xlab="", ylab="Lines of Code")	
+		plot(xtv$avglinesofcode, main=paste("XTV Avg Commit Size (in Lines of Code)", sprintname), xlab="", ylab="Lines of Code")	
 		text(xtv$avglinesofcode, row.names(xtv), cex=1, pos=4)
 		par(opar)
 	dev.off()
@@ -45,7 +45,7 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart){
 	png(comparisonchart, width = 980, height = 980, units = "px")
 		plot(xtv$avglinesofcode, type="b",
 		pch=15, lty=1, col="red", ylim=c(0, 130), xlim=c(0, 25),
-		main="Avg Lines of Code Changed\n Per Commit for XTV and PDS",
+		main=paste("Avg Lines of Code Changed\n Per Commit for XTV and PDS", sprintname),
 		xlab="", ylab="Avg Commit Size")
 		text(xtv$avglinesofcode, row.names(xtv), cex=1, pos=4, col="red")
 		lines(pds$avglinesofcode, type="b", pch=17, lty=2, col="blue")
@@ -55,6 +55,6 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart){
 	
 }
 
-drawDevCommitCharts(pds_commitsArchived, xtv_commitsArchived, pdschartArchived, xtvchartArchived, comparisonchartArchived)
+drawDevCommitCharts(pds_commitsArchived, xtv_commitsArchived, pdschartArchived, xtvchartArchived, comparisonchartArchived, "Historic")
 
-drawDevCommitCharts(pds_commitsacdc, xtv_commitsacdc, pdschartacdc, xtvchartacdc, comparisonchartacdc)
+drawDevCommitCharts(pds_commitsacdc, xtv_commitsacdc, pdschartacdc, xtvchartacdc, comparisonchartacdc, "AC/DC")
