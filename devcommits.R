@@ -23,9 +23,9 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, s
 		opar <- par(no.readonly=TRUE)
 		par(mfrow=c(2,1))
 		plot(pds$commits, main=paste("PDS Total Commits", sprintname),  xlab="", ylab="Number of Commits")
-		text(pds$commits, row.names(pds), cex=1, pos=4)
+		#text(pds$commits, row.names(pds), cex=1, pos=4)
 		plot(pds$avglinesofcode, main=paste("PDS Avg Commit Size (in Lines of Code)", sprintname), xlab="", ylab="Lines of Code")	
-		text(pds$avglinesofcode, row.names(pds), cex=1, pos=4)
+		#text(pds$avglinesofcode, row.names(pds), cex=1, pos=4)
 		par(opar)
 	dev.off()
 
@@ -34,9 +34,9 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, s
 		opar <- par(no.readonly=TRUE)
 		par(mfrow=c(2,1))
 		plot(xtv$commits, main=paste("XTV Total Commits", sprintname),  xlab="", ylab="Number of Commits")
-		text(xtv$commits, row.names(xtv), cex=1, pos=4)
+		#text(xtv$commits, row.names(xtv), cex=1, pos=4)
 		plot(xtv$avglinesofcode, main=paste("XTV Avg Commit Size (in Lines of Code)", sprintname), xlab="", ylab="Lines of Code")	
-		text(xtv$avglinesofcode, row.names(xtv), cex=1, pos=4)
+		#text(xtv$avglinesofcode, row.names(xtv), cex=1, pos=4)
 		par(opar)
 	dev.off()
 
