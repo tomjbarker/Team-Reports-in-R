@@ -8,6 +8,8 @@ bugsopencolumns = c("Fixed", "In Progress", "Open", "Pending", "Re-Opened")
 weeklybugs <- read.table("/Users/tbarke000/TeamHealth/data/bugsbydate.txt", header=TRUE, sep=" ", row.names="Date")
 weeklybugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_weekly_trend.png"
 
+
+
 drawYTDBugs(ytdbugs2011, ytd2011png)
 drawIterationBugsRemainingOpen(bugsopen, bugsopenpng, bugsopencolumns)
 drawWeeklyBugTrend(weeklybugs , weeklybugspng)
@@ -36,7 +38,6 @@ par(opar)
 dev.off()
 }
 
-
 drawWeeklyBugTrend <- function(bugs, png){
 png(png)
 	plot(bugs$Total, type="b", xlab="", ylab="", pch=15, lty=1, col="red", main="Bug Trend Report", axes=FALSE)
@@ -44,3 +45,15 @@ png(png)
 	axis(2, las=1, at=10*0: range(bugs)[2])
 dev.off()	
 }
+
+iterationbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugstotalbyiteration.txt",  header=TRUE, sep=",", row.names="Iteration")
+
+iterationbugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_total_by_iteration.png"
+
+drawTotalBugsByIteration(iterationbugs, iterationbugspng)
+drawTotalBugsByIteration <- function(bugs,png){
+	bugs <- t(bugs)
+	barplot(bugs, col=rainbow(length(rownames(bugs))), legend=rownames(bugs))
+	
+}
+
