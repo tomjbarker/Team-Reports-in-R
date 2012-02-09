@@ -46,14 +46,26 @@ png(png)
 dev.off()	
 }
 
+
+drawTotalBugsByIteration <- function(bugs,png){
+	bugs <- t(bugs)
+	bugcolors <- c("#05FF22", "#FFFF05" ,"#F00505")
+	barplot(bugs, col= bugcolors, legend=rownames(bugs), ylim=c(0,150))
+	
+	text(x=c(1,length(iterationbugs$Resolved)), y=5, labels= iterationbugs$Resolved, cex=.8, col="#FFFFFF") #Annotate resolved bugs
+
+	pendingYs <- vector()
+	for(i in 1:length(iterationbugs$Pending)){(pendingYs<- c(pendingYs, sum(iterationbugs$Resolved[i], iterationbugs$Pending[i])-1))}
+	text(x=c(1,length(iterationbugs$Pending)), y= pendingYs, labels= iterationbugs$Pending, cex=.8, col="#FFFFFF") #Annotate pending bugs
+	
+	unresolvedYs <-vector()
+	for(i in 1:length(iterationbugs$Unresolved)){(unresolvedYs <- c(unresolvedYs, sum(iterationbugs$Resolved[i], iterationbugs$Pending[i], iterationbugs$Unresolved[i]) - 2))}
+	text(x=c(1,length(iterationbugs$Unresolved)), y= unresolvedYs, labels= iterationbugs$Unresolved, cex=.8, col="#FFFFFF") #Annotate unresolved bugs
+}
+
 iterationbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugstotalbyiteration.txt",  header=TRUE, sep=",", row.names="Iteration")
 
 iterationbugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_total_by_iteration.png"
 
 drawTotalBugsByIteration(iterationbugs, iterationbugspng)
-drawTotalBugsByIteration <- function(bugs,png){
-	bugs <- t(bugs)
-	barplot(bugs, col=rainbow(length(rownames(bugs))), legend=rownames(bugs))
-	
-}
 
