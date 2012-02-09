@@ -9,10 +9,15 @@ weeklybugs <- read.table("/Users/tbarke000/TeamHealth/data/bugsbydate.txt", head
 weeklybugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_weekly_trend.png"
 
 
+iterationbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugstotalbyiteration.txt",  header=TRUE, sep=",", row.names="Iteration")
+iterationbugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_total_by_iteration.png"
+
+
 
 drawYTDBugs(ytdbugs2011, ytd2011png)
 drawIterationBugsRemainingOpen(bugsopen, bugsopenpng, bugsopencolumns)
 drawWeeklyBugTrend(weeklybugs , weeklybugspng)
+drawTotalBugsByIteration(iterationbugs, iterationbugspng)
 
 
 drawYTDBugs <- function(ytdbugs, png){
@@ -64,10 +69,3 @@ png(png, width = 480, height = 580, units = "px")
 	text(x=c(1,length(iterationbugs$Unresolved)), y= unresolvedYs, labels= iterationbugs$Unresolved, cex=.8, col="#FFFFFF")#Annotate unresolved bugs
 dev.off()
 }
-
-iterationbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugstotalbyiteration.txt",  header=TRUE, sep=",", row.names="Iteration")
-
-iterationbugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_total_by_iteration.png"
-
-drawTotalBugsByIteration(iterationbugs, iterationbugspng)
-
