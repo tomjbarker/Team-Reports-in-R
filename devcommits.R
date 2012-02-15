@@ -4,6 +4,11 @@ xtv_commitsArchived <- read.table("/Users/tbarke000/TeamHealth/data/dev_commits_
 pds_commitsacdc <- read.table("/Users/tbarke000/TeamHealth/data/commits_acdc_pds.txt", header=TRUE, sep=" ", row.names="developer")
 xtv_commitsacdc <- read.table("/Users/tbarke000/TeamHealth/data/commits_acdc_xtv.txt", header=TRUE, sep=" ", row.names="developer")
 
+pds_commitsbeatles <- read.table("/Users/tbarke000/TeamHealth/data/commits_beatles_pds.txt", header=TRUE, sep=" ", row.names="developer")
+xtv_commitsbeatles <- read.table("/Users/tbarke000/TeamHealth/data/commits_beatles_xtv.txt", header=TRUE, sep=" ", row.names="developer")
+cimspire_commitsbeatles <- read.table("/Users/tbarke000/TeamHealth/data/commits_beatles_cimspire.txt", header=TRUE, sep=" ", row.names="developer")
+
+
 pdschartArchived <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_pdshighlevelcommitshistoric.png"
 xtvchartArchived <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_xtvhighlevelcommitshistoric.png"
 comparisonchartArchived <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommitsizecomparisonhistoric.png"
@@ -13,6 +18,9 @@ xtvchartacdc <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_xtvhighlevelcommi
 comparisonchartacdc <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommitsizecomparisonacdc.png"
 
 
+pdschartbeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_pdshighlevelcommitsbeatles.png"
+xtvchartbeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_xtvhighlevelcommitsbeatles.png"
+comparisonchartbeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommitsizecomparisonbeatles.png"
 
 drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, sprintname){
 	xtv <- xtv[order(row.names(xtv)),]
@@ -23,9 +31,9 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, s
 		opar <- par(no.readonly=TRUE)
 		par(mfrow=c(2,1))
 		plot(pds$commits, main=paste("PDS Total Commits", sprintname),  xlab="", ylab="Number of Commits")
-		#text(pds$commits, row.names(pds), cex=1, pos=4)
+		text(pds$commits, row.names(pds), cex=1, pos=4)
 		plot(pds$avglinesofcode, main=paste("PDS Avg Commit Size (in Lines of Code)", sprintname), xlab="", ylab="Lines of Code")	
-		#text(pds$avglinesofcode, row.names(pds), cex=1, pos=4)
+		text(pds$avglinesofcode, row.names(pds), cex=1, pos=4)
 		par(opar)
 	dev.off()
 
@@ -34,9 +42,9 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, s
 		opar <- par(no.readonly=TRUE)
 		par(mfrow=c(2,1))
 		plot(xtv$commits, main=paste("XTV Total Commits", sprintname),  xlab="", ylab="Number of Commits")
-		#text(xtv$commits, row.names(xtv), cex=1, pos=4)
+		text(xtv$commits, row.names(xtv), cex=1, pos=4)
 		plot(xtv$avglinesofcode, main=paste("XTV Avg Commit Size (in Lines of Code)", sprintname), xlab="", ylab="Lines of Code")	
-		#text(xtv$avglinesofcode, row.names(xtv), cex=1, pos=4)
+		text(xtv$avglinesofcode, row.names(xtv), cex=1, pos=4)
 		par(opar)
 	dev.off()
 
@@ -58,3 +66,4 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, s
 drawDevCommitCharts(pds_commitsArchived, xtv_commitsArchived, pdschartArchived, xtvchartArchived, comparisonchartArchived, "Historic")
 
 drawDevCommitCharts(pds_commitsacdc, xtv_commitsacdc, pdschartacdc, xtvchartacdc, comparisonchartacdc, "AC/DC")
+drawDevCommitCharts(pds_commitsbeatles, xtv_commitsbeatles, pdschartbeatles, xtvchartbeatles, comparisonchartbeatles, "Beatles")
