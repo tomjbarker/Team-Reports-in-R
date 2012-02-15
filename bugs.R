@@ -1,6 +1,5 @@
-ytdbugs2011 <- read.table("2011cumulativebugs.txt", header=TRUE, sep=",", row.names="Year")
-ytd2011png <- "/Users/tbarke000/TeamHealth/charts/bugs_ytd2011.png"
-
+ytdbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugsytd.txt", header=TRUE, sep=",", row.names="Year")
+ytdpng <- "/Users/tbarke000/TeamHealth/charts/bugs_ytd.png"
 bugsopen <- read.table("/Users/tbarke000/TeamHealth/data/bugsopenbyiteration.txt", header=TRUE, sep=",")
 bugsopenpng <- "/Users/tbarke000/TeamHealth/charts/bugs_remaining_open_by_release.png" 
 bugsopencolumns = c("Fixed", "In Progress", "Open", "Pending", "Re-Opened")
@@ -8,26 +7,29 @@ bugsopencolumns = c("Fixed", "In Progress", "Open", "Pending", "Re-Opened")
 weeklybugs <- read.table("/Users/tbarke000/TeamHealth/data/bugsbydate.txt", header=TRUE, sep=" ", row.names="Date")
 weeklybugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_weekly_trend.png"
 
-
 iterationbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugstotalbyiteration.txt",  header=TRUE, sep=",", row.names="Iteration")
 iterationbugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_total_by_iteration.png"
 
-
-
-drawYTDBugs(ytdbugs2011, ytd2011png)
 drawIterationBugsRemainingOpen(bugsopen, bugsopenpng, bugsopencolumns)
 drawWeeklyBugTrend(weeklybugs , weeklybugspng)
 drawTotalBugsByIteration(iterationbugs, iterationbugspng)
+drawYTDBugs(ytdbugs, ytdpng)
 
-
-drawYTDBugs <- function(ytdbugs, png){
+drawYTDBugs <- function(ytdbugs, png){	
 #YTD Bugs
 png(png)
-	pct <- round(ytdbugs/sum(ytdbugs)*100) #convert to percentages
-	slices <- c(pct$Resolved, pct$Unresolved) #pull out the values as vector so we can draw a pie
-	lbls <- paste(colnames(pct), pct) # add percents to labels 
-	lbls <- paste(lbls,"%",sep="") # ad % to labels
-	pie(slices, labels =lbls, col=rainbow(length(colnames(pct))),main="YTD Bugs")
+	ytdbugs <- t(ytdbugs)
+	bugcolors <- c("#05FF22","#F00505")
+	year <- ytdbugs[1:2]
+	pcts <- 100 * (year/sum(year))
+	pcts <- data.frame(pcts, row.names = c("Resolved", "Unresolved")) #, "Pending"))
+	nextyear <- ytdbugs[4:5]
+	nextpct <- data.frame(100 * (nextyear/sum(nextyear)), row.names=c("Resolved", "Unresolved" ))  #, "Pending"))
+	pct <- cbind(pcts, nextpct)
+	colnames(pct) <- c("2011", "2012")
+	lbls <- paste(cbind(year,nextyear))
+	barplot(as.matrix(pct), col= bugcolors,main="Percent of Bugs Closed by Year")
+	#text(x=c(1,length(pct)), y=as.matrix(round(pct)), labels= lbls, cex=.8, col="#FFFFFF")
 dev.off()	
 }
 
