@@ -10,7 +10,7 @@ weeklybugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_weekly_trend.png"
 iterationbugs <- read.table("/Users/tbarke000/TeamHealth/data/bugstotalbyiteration.txt",  header=TRUE, sep=",", row.names="Iteration")
 iterationbugspng <- "/Users/tbarke000/TeamHealth/charts/bugs_total_by_iteration.png"
 
-drawIterationBugsRemainingOpen(bugsopen, bugsopenpng, bugsopencolumns)
+drawIterationBugsRemainingOpen(bugsopen, bugsopenpng, bugsopencolumns, "Beatles")
 drawWeeklyBugTrend(weeklybugs , weeklybugspng)
 drawTotalBugsByIteration(iterationbugs, iterationbugspng)
 drawYTDBugs(ytdbugs, ytdpng)
@@ -33,12 +33,12 @@ png(png)
 dev.off()	
 }
 
-drawIterationBugsRemainingOpen <- function(bugs, png, cols){
+drawIterationBugsRemainingOpen <- function(bugs, png, cols, iteration){
 #Iteration Bugs Still Open
 png(png, width = 480, height = 380, units = "px")
 opar <- par(no.readonly=TRUE)
 	par(mfrow=c(2,1))
-	barplot(as.matrix(bugs), main="Bugs Remaining Open by Status ACDC", xlab="", ylab="", names.arg= cols)
+	barplot(as.matrix(bugs), main=paste("Bugs Remaining Open by Status ", iteration), xlab="", ylab="", names.arg= cols)
 	bugs <- t(bugs) #transpose the data to show stacked bar plot
 	barplot(as.matrix(bugs), col=rainbow(length(rownames(bugs))), xlab="", ylab="", legend= cols)
 par(opar)
