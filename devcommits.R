@@ -1,31 +1,44 @@
+currentSprint <- "chicago"
+printableSprintName <- "Chicago"
+dataDirectory <- "/Users/tbarke000/TeamHealth/data/"
+chartDirectory <- "/Users/tbarke000/TeamHealth/charts/"
+
 pds_commitsArchived <- read.table("/Users/tbarke000/TeamHealth/data/dev_commits_pds.txt", header=TRUE, sep=",", row.names="developer")
 xtv_commitsArchived <- read.table("/Users/tbarke000/TeamHealth/data/dev_commits_xtv.txt", header=TRUE, sep=",", row.names="developer")
 
-pds_commitsacdc <- read.table("/Users/tbarke000/TeamHealth/data/commits_acdc_pds.txt", header=TRUE, sep=" ", row.names="developer")
-xtv_commitsacdc <- read.table("/Users/tbarke000/TeamHealth/data/commits_acdc_xtv.txt", header=TRUE, sep=" ", row.names="developer")
+pds_commits <- read.table(paste(dataDirectory, "commits_", currentSprint, "_pds.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+xtv_commits <- read.table(paste(dataDirectory, "commits_", currentSprint, "_xtv.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+cimspire_commits <- read.table(paste(dataDirectory, "commits_", currentSprint, "_cimspire.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
 
-pds_commitsbeatles <- read.table("/Users/tbarke000/TeamHealth/data/commits_beatles_pds.txt", header=TRUE, sep=" ", row.names="developer")
-xtv_commitsbeatles <- read.table("/Users/tbarke000/TeamHealth/data/commits_beatles_xtv.txt", header=TRUE, sep=" ", row.names="developer")
-cimspire_commitsbeatles <- read.table("/Users/tbarke000/TeamHealth/data/commits_beatles_cimspire.txt", header=TRUE, sep=" ", row.names="developer")
+pdslines <- read.table(paste(dataDirectory, "linesofcode_", currentSprint, "_pds.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+xtvlines <- read.table(paste(dataDirectory, "linesofcode_", currentSprint, "_xtv.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+cimspirelines <- read.table(paste(dataDirectory, "linesofcode_", currentSprint, "_cimspire.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
 
-pdslines_beatles <- read.table("/Users/tbarke000/TeamHealth/data/linesofcode_beatles_pds.txt", header=TRUE, sep=" ", row.names="developer")
-xtvlines_beatles <- read.table("/Users/tbarke000/TeamHealth/data/linesofcode_beatles_xtv.txt", header=TRUE, sep=" ", row.names="developer")
-cimspirelines_beatles <- read.table("/Users/tbarke000/TeamHealth/data/linesofcode_beatles_cimspire.txt", header=TRUE, sep=" ", row.names="developer")
+cimspireLCLT <- read.table(paste(dataDirectory, "LoC_vs_LoT_", currentSprint, "_cimspire.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+xtvLCLT <- read.table(paste(dataDirectory, "LoC_vs_LoT_", currentSprint, "_xtv.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+pdsLCLT <- read.table(paste(dataDirectory, "LoC_vs_LoT_", currentSprint, "_pds.txt", sep=""), header=TRUE, sep=" ", row.names="developer")
+
 
 pdschartArchived <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_pdshighlevelcommitshistoric.png"
 xtvchartArchived <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_xtvhighlevelcommitshistoric.png"
 comparisonchartArchived <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommitsizecomparisonhistoric.png"
 
-pdschartacdc <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_pdshighlevelcommitsacdc.png"
-xtvchartacdc <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_xtvhighlevelcommitsacdc.png"
-comparisonchartacdc <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommitsizecomparisonacdc.png"
+pdschart <- paste(chartDirectory, "TeamHealth_pdshighlevelcommits", currentSprint, ".png", sep="")
+xtvchart <- paste(chartDirectory, "TeamHealth_xtvhighlevelcommits", currentSprint, ".png", sep="")
+comparisonchart <- paste(chartDirectory, "TeamHealth_avgcommitsizecomparison", currentSprint, ".png", sep="")
 
+linesofcode <- paste(chartDirectory, "LinesofCode_", currentSprint, ".png", sep="")
 
-pdschartbeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_pdshighlevelcommitsbeatles.png"
-xtvchartbeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_xtvhighlevelcommitsbeatles.png"
-comparisonchartbeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_avgcommitsizecomparisonbeatles.png"
+pdsLCLTpng <- paste(chartDirectory, "LoCvsLoT_pds_", currentSprint, ".png", sep="")
+xtvLCLTpng <- paste(chartDirectory, "LoCvsLoT_xtv_", currentSprint, ".png", sep="")
+cimspireLCLTpng <- paste(chartDirectory, "LoCvsLoT_cimspire_", currentSprint, ".png", sep="")
+LCLTpng <- paste(chartDirectory, "LoCvsLoT_", currentSprint, ".png", sep="")
 
-linesofcodebeatles <- "/Users/tbarke000/TeamHealth/charts/TeamHealth_LinesofCode_Beatles.png"
+drawLOCvsLOT <- function(data, codebase){
+	data <- t(data)
+	LCLTcolors <- c("red", "green")
+	barplot(as.matrix(data), col=LCLTcolors, beside=TRUE, legend= row.names(data), cex.names=0.7, main=paste("Lines of Testable Code vs Lines of Test\n", codebase))
+}
 
 
 drawDevLinesofCode <- function(linesofcode, sprintname, codebase){
@@ -76,15 +89,21 @@ drawDevCommitCharts <- function(pds, xtv, pdschart, xtvchart, comparisonchart, s
 	
 }
 
-png(linesofcodebeatles, width = 1080, height = 1080, units = "px")
+png(linesofcode, width = 1080, height = 1080, units = "px")
 	par(mfrow=c(2,2))
-	drawDevLinesofCode(pdslines_beatles, "Beatles", "PDS")
-	drawDevLinesofCode(xtvlines_beatles, "Beatles", "XTV")
-	drawDevLinesofCode(cimspirelines_beatles, "Beatles", "CimSpire")
+	drawDevLinesofCode(pdslines, printableSprintName, "PDS")
+	drawDevLinesofCode(xtvlines, printableSprintName, "XTV")
+	drawDevLinesofCode(cimspirelines, printableSprintName, "CimSpire")
 dev.off()
 
 
 drawDevCommitCharts(pds_commitsArchived, xtv_commitsArchived, pdschartArchived, xtvchartArchived, comparisonchartArchived, "Historic")
 
-drawDevCommitCharts(pds_commitsacdc, xtv_commitsacdc, pdschartacdc, xtvchartacdc, comparisonchartacdc, "AC/DC")
-drawDevCommitCharts(pds_commitsbeatles, xtv_commitsbeatles, pdschartbeatles, xtvchartbeatles, comparisonchartbeatles, "Beatles")
+drawDevCommitCharts(pds_commits, xtv_commits, pdschart, xtvchart, comparisonchart, printableSprintName)
+
+png(LCLTpng, width = 1080, height = 1080, units = "px")
+	par(mfrow=c(2,2))
+	drawLOCvsLOT(pdsLCLT, "XFN")
+	drawLOCvsLOT(xtvLCLT, "XTV")
+	drawLOCvsLOT(cimspireLCLT, "CIMSpire")
+dev.off()
