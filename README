@@ -1,8 +1,10 @@
-These are my R scripts to generate the charts for my regular Team Health report
-
-Previously I generated all of this in Excel, in an effort to automate it even further I am migrating it to R
-
+Quality
 Bugs - year to date, total bugs open by iteration, bugs remaining open by iteration, bugs by user story, bug weekly trend
-Dev Commits - size of commits by dev, size of commit by dev by code base comparison
-Code Coverage
-Commit vs Complete
+
+Commits - lines of code vs lines of test
+
+Performance
+WPO - time series chart for http requests, total page size in kb, ms to page loaded for series of urls
+
+Delivery
+Treemap of stories per iteration, commit vs complete analysis
